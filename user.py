@@ -1,4 +1,4 @@
-from database import ConnectionPool
+from database import ConnectionFromPool
 import psycopg2
 
 
@@ -14,7 +14,7 @@ class User:
 
     def save_to_db(self):
         """ using "with" with psycopg2.connection string it will automatically commit and close """
-        with ConnectionPool() as connection:
+        with ConnectionFromPool() as connection:
             with connection.cursor() as cursor:
                 cursor.execute('INSERT INTO users (email, first_name, last_name) VALUES (%s, %s, %s )',
                                (self.email, self.first_name, self.last_name))
@@ -29,7 +29,7 @@ class User:
 
     @classmethod
     def load_from_db_by_email(cls, email):
-        with ConnectionPool() as connection:
+        with ConnectionFromPool() as connection:
             with connection.cursor() as cursor:
                 cursor.execute('SELECT * FROM users WHERE email=%s', (email,))
                 usr_data = cursor.fetchone()
