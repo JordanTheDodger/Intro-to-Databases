@@ -21,4 +21,5 @@ def __enter__(self):
 
 
 def __exit__(self, exc_type, exc_val, exc_tb):
+    self.connection.commit()
     connection_pool.putconn(self.connection)
